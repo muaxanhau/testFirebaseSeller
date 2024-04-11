@@ -36,7 +36,7 @@ import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIos from '@react-native-community/push-notification-ios';
 
-export const useResetAppData = (queryClient?: QueryClient) => {
+export const useClearAppData = (queryClient?: QueryClient) => {
   const qClient = useQueryClient(queryClient);
   const {removeAllNotifications} = usePushNotification();
 
@@ -50,6 +50,8 @@ export const useResetAppData = (queryClient?: QueryClient) => {
 };
 
 export const useAppQueryClient = () => {
+  const reset = useResetMainStackNavigation();
+
   const getMessageError = (error: unknown) => {
     if (!error) return undefined;
 
@@ -75,6 +77,7 @@ export const useAppQueryClient = () => {
     Alert.alert('Warning', msg);
     if (msg.includes('Unauthorized')) {
       auth().signOut();
+      reset('Login');
       return;
     }
   };
@@ -190,11 +193,11 @@ export const usePushNotification = () => {
 };
 
 const useFirstSetupNavigation = () => {
-  const resetMainStackNavigation = useResetMainStackNavigation();
+  const reset = useResetMainStackNavigation();
 
   useTimeout(() => {
     const isAuthorized = auth().currentUser !== null;
-    resetMainStackNavigation(isAuthorized ? 'Home' : 'Login');
+    reset(isAuthorized ? 'Home' : 'Login');
   }, 1000);
 };
 const useFirstSetupQueryClient = () => {
@@ -206,7 +209,7 @@ const useFirstSetupQueryClient = () => {
   }, []);
 };
 const useFirstSetupAuthApp = () => {
-  const resetAppData = useResetAppData();
+  const clearAppData = useClearAppData();
   const {setAuth} = useAuthStore();
 
   useLayoutEffect(() => {
@@ -217,7 +220,7 @@ const useFirstSetupAuthApp = () => {
         return;
       }
 
-      resetAppData();
+      clearAppData();
     });
 
     return () => tokenListener();
