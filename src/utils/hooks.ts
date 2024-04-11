@@ -36,20 +36,13 @@ import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIos from '@react-native-community/push-notification-ios';
 
-export const useResetApp = (queryClient?: QueryClient) => {
+export const useResetAppData = (queryClient?: QueryClient) => {
   const qClient = useQueryClient(queryClient);
   const {removeAllNotifications} = usePushNotification();
-  const reset = useResetMainStackNavigation();
-  const currentScreenName = useCurrentScreenName();
 
   const resetApp = () => {
-    const firstEnterApp =
-      currentScreenName === 'Splash' || currentScreenName === 'Login';
-    if (firstEnterApp) return;
-
     resetAllStores();
     qClient.clear();
-    reset('Login');
     removeAllNotifications();
   };
 
@@ -213,7 +206,7 @@ const useFirstSetupQueryClient = () => {
   }, []);
 };
 const useFirstSetupAuthApp = () => {
-  const resetApp = useResetApp();
+  const resetAppData = useResetAppData();
   const {setAuth} = useAuthStore();
 
   useLayoutEffect(() => {
@@ -224,7 +217,7 @@ const useFirstSetupAuthApp = () => {
         return;
       }
 
-      resetApp();
+      resetAppData();
     });
 
     return () => tokenListener();
@@ -320,7 +313,7 @@ export const useCurrentScreenName = () => {
     const currName = routes[routesLength - 1]
       .name as keyof MainStackNavigationModel;
     setName(currName);
-  }, [routesLength]);
+  }, [routes]);
 
   return name;
 };

@@ -20,7 +20,7 @@ export const HomeScreen: ScreenBaseModel = () => {
 
   return (
     <ScreenLayoutComponent paddingHorizontal gap scrollable>
-      <TextComponent type="h1">Seller</TextComponent>
+      <TextComponent type="h1">Buyer</TextComponent>
 
       <ButtonComponent title="Profile" onPress={onPressProfile} />
 

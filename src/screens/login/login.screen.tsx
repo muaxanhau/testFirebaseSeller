@@ -37,7 +37,7 @@ export const LoginScreen: FC = () => {
       <LoginPhoneModalComponent ref={refLoginPhoneModal} />
 
       <ScreenLayoutComponent paddingHorizontal gap>
-        <TextComponent type="h1">Seller</TextComponent>
+        <TextComponent type="h1">Buyer</TextComponent>
 
         <KeyboardAvoidingView>
           <InputTextComponent

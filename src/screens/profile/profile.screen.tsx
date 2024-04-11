@@ -8,14 +8,17 @@ import {
   ScreenLayoutComponent,
   TextComponent,
 } from 'components';
-import {useMainStackNavigation} from 'utils';
+import {useMainStackNavigation, useResetMainStackNavigation} from 'utils';
 import {useGetUserSelfRepo, useLogoutRepo} from 'repositories';
 import {colors} from 'values';
 
 export const ProfileScreen: ScreenBaseModel = () => {
   const navigation = useMainStackNavigation();
+  const reset = useResetMainStackNavigation();
   const {user} = useGetUserSelfRepo();
-  const {logout, isPending} = useLogoutRepo();
+  const {logout, isPending} = useLogoutRepo({
+    onSuccess: () => reset('Login'),
+  });
   const refBottomSheet = useRef<BottomSheetRefProps>(null);
 
   const role = user?.role?.toUpperCase();

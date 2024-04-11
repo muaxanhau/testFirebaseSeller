@@ -1,9 +1,8 @@
 import {KeyService, service, useApiMutation} from 'repositories/services';
-import {CartIdModel, CartModel} from 'models';
+import {CartIdModel} from 'models';
 import {useQueryClient} from '@tanstack/react-query';
 import {utils} from 'utils';
 import {devToolConfig} from 'config';
-import {GetUserCartsSelfOutput} from './getUserCartsSelf.repo';
 
 export type AddCartProps = {onSuccess?: () => void} | void;
 export type AddCartInput = {itemId: string; quantity: number};
