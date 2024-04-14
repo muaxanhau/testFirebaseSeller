@@ -41,4 +41,6 @@ export enum KeyService {
 
   // foods
   GET_ALL_FOODS = 'GET_ALL_FOODS',
+  GET_FOOD_SESSIONS = 'GET_FOOD_SESSIONS',
+  UPDATE_FOOD_SESSION = 'UPDATE_FOOD_SESSION',
 }

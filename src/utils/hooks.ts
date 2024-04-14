@@ -14,7 +14,7 @@ import {
   useNavigation,
   useNavigationState,
 } from '@react-navigation/native';
-import {MainStackNavigationModel} from 'models';
+import {MainStackNavigationModel, TriggerKeyPushNotificationEnum} from 'models';
 import {StorageEnum} from 'models';
 import {utils} from './utils';
 import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
@@ -251,10 +251,10 @@ const useFirstSetupNotification = () => {
         if (!notification || !messageId) return;
 
         const {title, body} = notification;
+        if (!title?.length || !body?.length) return;
 
-        utils.isIos() &&
-          iosLocalNotification(messageId, title || '', body || '');
-        utils.isAndroid() && androidLocalNotification(title || '', body || '');
+        utils.isIos() && iosLocalNotification(messageId, title, body);
+        utils.isAndroid() && androidLocalNotification(title, body);
       },
     );
 
@@ -269,6 +269,21 @@ export const useFirstSetupApp = () => {
   useFirstSetupNotification();
   useLayoutEffect(() => {
     LogBox.ignoreAllLogs();
+  }, []);
+};
+
+export const useEventPushNotification = (
+  key: TriggerKeyPushNotificationEnum,
+  callback: () => void,
+) => {
+  useLayoutEffect(() => {
+    const unsubscribe = messaging().onMessage(async ({data}) => {
+      if (!data?.key || data.key !== key) return;
+
+      callback();
+    });
+
+    return unsubscribe;
   }, []);
 };
 

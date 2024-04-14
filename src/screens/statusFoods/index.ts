@@ -1,0 +1,1 @@
+export * from './statusFoods.screen';

@@ -1,4 +1,5 @@
 export type MainStackNavigationModel = {
+  Test: undefined;
   Splash: undefined;
   Login: undefined;
   Home: undefined;
@@ -19,5 +20,5 @@ export type MainStackNavigationModel = {
     restaurantId: string;
     restaurantName: string;
   };
-  Test: undefined;
+  StatusFoods: undefined;
 };
