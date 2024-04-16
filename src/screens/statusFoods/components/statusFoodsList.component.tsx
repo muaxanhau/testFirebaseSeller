@@ -1,10 +1,9 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {useGetFoodSessionsRepo, useUpdateFoodSessionRepo} from 'repositories';
 import {FlatListComponent, TextComponent} from 'components';
 import {colors, valueStyles} from 'values';
-import {StatusFoodEnum, TriggerKeyPushNotificationEnum} from 'models';
-import {useEventPushNotification} from 'utils';
+import {StatusFoodEnum} from 'models';
 
 type ColorObjModel = {
   [key in StatusFoodEnum]: {
@@ -34,7 +33,6 @@ type StatusFoodsListProps = {};
 export const StatusFoodsListComponent: FC<StatusFoodsListProps> = () => {
   const {foodSessions, refetch} = useGetFoodSessionsRepo();
   const {updateFoodSession} = useUpdateFoodSessionRepo();
-  useEventPushNotification(TriggerKeyPushNotificationEnum.STATUS_FOOD, refetch);
 
   const onPress = (foodId: string) => () => {
     updateFoodSession({foodId});

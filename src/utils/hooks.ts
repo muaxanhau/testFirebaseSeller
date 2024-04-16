@@ -35,6 +35,7 @@ import {config} from 'config';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIos from '@react-native-community/push-notification-ios';
+import {KeyService} from 'repositories';
 
 export const useClearAppData = (queryClient?: QueryClient) => {
   const qClient = useQueryClient(queryClient);
