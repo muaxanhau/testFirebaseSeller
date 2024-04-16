@@ -9,7 +9,7 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'http://localhost:3000/v1/api/',
-    staleTime: 1000 * 15,
+    staleTime: 1000 * 5,
     tokenName: 'firebase-token',
   },
   STAGING: {
@@ -20,7 +20,7 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: 'https://test-firebase.adaptable.app/v1/api/',
-    staleTime: 1000 * 15,
+    staleTime: 1000 * 5,
     tokenName: 'firebase-token',
   },
   PRODUCTION: {
@@ -31,7 +31,7 @@ const environments: EnvironmentsConfigModel = {
       build: 0,
     },
     baseUrl: '',
-    staleTime: 1000 * 15,
+    staleTime: 1000 * 5,
     tokenName: 'firebase-token',
   },
 } as const;
@@ -42,7 +42,7 @@ const environments: EnvironmentsConfigModel = {
  * *******************************
  */
 
-export const config = environments.DEVELOPMENT;
+export const config = environments.STAGING;
 
 /**
  * debug log for response api
