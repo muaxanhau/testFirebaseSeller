@@ -35,7 +35,7 @@ import {config} from 'config';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIos from '@react-native-community/push-notification-ios';
-import {KeyService} from 'repositories';
+import {service} from 'repositories';
 
 export const useClearAppData = (queryClient?: QueryClient) => {
   const qClient = useQueryClient(queryClient);
@@ -52,6 +52,7 @@ export const useClearAppData = (queryClient?: QueryClient) => {
 
 export const useAppQueryClient = () => {
   const reset = useResetMainStackNavigation();
+  const {getDeviceId} = usePushNotification();
 
   const getMessageError = (error: unknown) => {
     if (!error) return undefined;
@@ -71,16 +72,21 @@ export const useAppQueryClient = () => {
     return 'Unknown error';
   };
 
-  const onError = (error: unknown) => {
+  // because can not use react-query here, so we must manually logout
+  const logoutManually = async () => {
+    auth().signOut();
+    const deviceId = await getDeviceId();
+    !!deviceId?.length &&
+      (await service.delete<null>(`users/device-id/${deviceId}`));
+    reset('Login');
+  };
+
+  const onError = async (error: unknown) => {
     const msg = getMessageError(error);
     if (!msg) return;
 
     Alert.alert('Warning', msg);
-    if (msg.includes('Unauthorized')) {
-      auth().signOut();
-      reset('Login');
-      return;
-    }
+    if (msg.includes('Unauthorized')) return logoutManually();
   };
 
   const [queryClient] = useState(
